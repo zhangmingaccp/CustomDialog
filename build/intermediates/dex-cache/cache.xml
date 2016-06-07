@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="D:\AndroidStudioSDK\sdk\extras\android\m2repository\com\android\support\support-v4\18.0.0\support-v4-18.0.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
+        <dex dex="D:\androidStudio-workspase\CustomDialog\app\build\intermediates\pre-dexed\debug\support-v4-18.0.0_2ea8eb932726ccdbab1d6aabafa1c81765f94af9.jar" />
+    </item>
+    <item
+        jar="D:\androidStudio-workspase\CustomDialog\app\libs\nineoldandroids-2.4.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="59f19e43354d32de831379c23ce03bb259a4c2b7">
+        <dex dex="D:\androidStudio-workspase\CustomDialog\app\build\intermediates\pre-dexed\debug\nineoldandroids-2.4.0_6eb7cf6947e756fd5058cd52344ccd6b8ba35ad0.jar" />
+    </item>
+    <item
+        jar="D:\androidStudio-workspase\CustomDialog\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="0f489f39e5f34339b4584b2d9938d57e51ce0097">
+        <dex dex="D:\androidStudio-workspase\CustomDialog\app\build\intermediates\pre-dexed\debug\instant-run_692208223f2f85db5d3b56bde34eae180e2903e1.jar" />
+    </item>
+    <item
+        jar="D:\androidStudio-workspase\CustomDialog\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="7efeba0cd3c101dbe8eb45ab5d2601445316f574">
+        <dex dex="D:\androidStudio-workspase\CustomDialog\app\build\intermediates\pre-dexed\debug\instant-run-bootstrap_03181abb684ed9c2ad9f425ef894b4257faa2317.jar" />
+    </item>
+
+</items>

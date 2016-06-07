@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "D:\\androidStudio-workspase\\CustomDialog\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\btn_unpress.xml",
+        "source": "D:\\androidStudio-workspase\\CustomDialog\\app\\src\\main\\res\\drawable\\btn_unpress.xml"
+    },
+    {
+        "merged": "D:\\androidStudio-workspase\\CustomDialog\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\btn_selector.xml",
+        "source": "D:\\androidStudio-workspase\\CustomDialog\\app\\src\\main\\res\\drawable\\btn_selector.xml"
+    },
+    {
+        "merged": "D:\\androidStudio-workspase\\CustomDialog\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\btn_press.xml",
+        "source": "D:\\androidStudio-workspase\\CustomDialog\\app\\src\\main\\res\\drawable\\btn_press.xml"
+    },
+    {
+        "merged": "D:\\androidStudio-workspase\\CustomDialog\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\dialog_bg.xml",
+        "source": "D:\\androidStudio-workspase\\CustomDialog\\app\\src\\main\\res\\drawable\\dialog_bg.xml"
+    }
+]
