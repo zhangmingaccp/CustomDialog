@@ -58,7 +58,7 @@ public class MainActivity extends Activity{
                 .setButton1Click(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(v.getContext(), "i'm btn1", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(v.getContext(), "hi,你点击了第一个", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setButton2Click(new View.OnClickListener() {
