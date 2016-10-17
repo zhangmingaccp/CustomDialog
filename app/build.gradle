@@ -1,24 +1,166 @@
 apply plugin: 'com.android.application'
 
+def releaseTime() {
+    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
+}
+
+ext {
+    // 2.6.0 versionCode:80
+    verName = "1.0.0"
+    verCode = 1
+}
+
 android {
     compileSdkVersion 18
     buildToolsVersion "23.0.3"
+
+    //这个工具的目录位于你的sdk目录/build-tools/下
+    //关闭Android Studio的PNG合法性检查的
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
 
     defaultConfig {
         applicationId "com.lidynast.customdialog"
         minSdkVersion 8
         targetSdkVersion 17
+        versionCode verCode
+        versionName verName
+
+        // dex突破65535的限制
+        multiDexEnabled true
+
+//        ndk {
+//            moduleName "test"                   //设置库(so)文件名称
+//            ldLibs "log", "z", "m", "jnigraphics", "android"
+//            //引入库，比如要用到的__android_log_print
+//            abiFilters "armeabi", "x86", "armeabi-v7a"      //, "x86"  显示指定支持的ABIs
+//            cFlags "-std=c++11 -fexceptions"                // C++11
+//            stl "gnustl_static"
+//        }
+    }
+    //编译时关闭lint检查，如果开启，build有警告和提示就会终止构建，此处关闭
+    lintOptions {
+        abortOnError false
+        checkReleaseBuilds false  //打包release版本的时候进行检测
     }
 
-    buildTypes {
+    dexOptions {
+        preDexLibraries = false
+        //让它不要对Lib做preDexing
+        incremental true
+        //开启incremental dexing,优化编译效率，这个功能android studio默认是关闭的。
+        javaMaxHeapSize "4g"     //增加java堆内存大小
+    }
+    signingConfigs {
+        debug {
+            keyAlias 'custom'
+            keyPassword '123456'
+            storeFile file('sign/sign_debug.jks')
+            storePassword '123456'
+        }
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            keyAlias 'custom'
+            keyPassword '123456'
+            storeFile file('sign/sign_debug.jks')
+            storePassword '123456'
         }
     }
+
+    // 在这里主要进行的配置是是否进行代码混淆，所以有一个代码混淆的开关，以及代码混淆的具体文件，文件有两种，无论哪种都行
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "IS_DEBUG", "true"
+            //是否开启混淆
+            minifyEnabled false
+            // 移除无用的resource文件
+            shrinkResources true
+            //开启Zipalign优化  默认为true，可不写。当配置为false时，不会生成unaligned.apk，unaligned.apk为中间产物，用于生成aligned.apk
+            zipAlignEnabled true
+            //签名
+            signingConfig signingConfigs.debug
+        }
+        release {
+            buildConfigField "boolean", "IS_DEBUG", "false"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+
+            //采用动态替换字符串的方式生成不同的release.apk
+
+            //开启Zipalign优化
+            zipAlignEnabled true
+
+            //签名
+            signingConfig signingConfigs.release
+
+            jniDebuggable false  //关闭jni调试
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            def buildType = variant.buildType.name
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                //def timeStamp = new Date().format('yyyyMMddHH');
+                def fileName = "CustomDialog-${variant.productFlavors[0].name}-${buildType}-${variant.versionName}-" + releaseTime() + ".apk"
+                output.outputFile = file("${outputFile.parent}/${fileName}")
+            }
+            //删除unanligned.apk
+            if (output.zipAlign != null) {
+                output.zipAlign.doLast {
+                    output.zipAlign.inputFile.delete()
+                }
+            }
+        }
+    }
+
+
+
+    //发布到不同的渠道，控制不同的包名、manifest.xml(多渠道打包配置)
+    productFlavors {
+        phoneFlavors {
+            applicationId 'com.bdzx.customdialog'
+            versionCode verCode
+            versionName 'default.' + verName
+        }
+        baidu {
+            applicationId 'com.baidu.customdialog'
+            versionCode verCode
+            versionName verName + '.baidu'
+        }
+        _360 {}
+        umeng {}
+    }
+    //源码设置 很多从 Eclipse 中迁移过来的代码，大部分中都将带有这个设置，因为 Eclipse的文件夹与 AS 不相同，所以要手动设置
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java {
+
+            }
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    //不知道啥意思
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+}
+
+//设置编码
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
 }
 
 dependencies {
     compile 'com.android.support:support-v4:18.0.0'
     compile files('libs/nineoldandroids-2.4.0.jar')
+    //compile project(':helloworld')
 }
